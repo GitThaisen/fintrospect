@@ -19,7 +19,7 @@ object ExtractionError {
   }
 
   case class Invalid(param: Parameter, values: Seq[String]) extends ExtractionError {
-    val reason = "Invalid"
+    val reason = if (values.isEmpty) "Invalid" else s"Invalid: ${values.map("'" + _ + "'").mkString(",")}"
   }
 
 }
