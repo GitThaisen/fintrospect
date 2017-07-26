@@ -116,7 +116,7 @@ class ExtractorTest extends FunSpec with Matchers {
     }
 
     describe("misc methods") {
-      val invalid = Invalid(Query.optional.string("bob"))
+      val invalid = Invalid(Query.optional.string("bob"), Seq("invalid value"))
       val missing = Missing(Query.optional.string("bob"))
 
       it("combine") {

@@ -7,8 +7,6 @@ import io.fintrospect.util.ExtractionError.{Invalid, Missing}
 import io.fintrospect.util.{Extracted, ExtractionFailed}
 import org.scalatest._
 
-
-
 class FormFieldTest extends FunSpec with Matchers {
 
   private val paramName = "name"
@@ -24,7 +22,8 @@ class FormFieldTest extends FunSpec with Matchers {
         }
 
         it("fails to validate invalid value") {
-          field.extract(formWithFieldOf("notValid")) shouldBe ExtractionFailed(Invalid(field))
+          val invalidValue = "notValid"
+          field.extract(formWithFieldOf(invalidValue)) shouldBe ExtractionFailed(Invalid(field, Seq(invalidValue)))
         }
 
         it("does not validate non existent value") {
@@ -70,7 +69,8 @@ class FormFieldTest extends FunSpec with Matchers {
         }
 
         it("fails to validate invalid value") {
-          field.extract(formWithFieldOf("2015-02-04", "notValid")) shouldBe ExtractionFailed(Invalid(field))
+          val invalidValue = Seq("2015-02-04", "notValid")
+          field.extract(formWithFieldOf(invalidValue:_*)) shouldBe ExtractionFailed(Invalid(field, invalidValue))
         }
 
         it("does not validate non existent value") {
@@ -115,7 +115,8 @@ class FormFieldTest extends FunSpec with Matchers {
       }
 
       it("fails to validate invalid value") {
-        field.extract(new Form(Map(paramName -> Seq("", "456")))) shouldBe ExtractionFailed(Invalid(field))
+        val invalidValue = Seq("", "456")
+        field.extract(new Form(Map(paramName -> invalidValue))) shouldBe ExtractionFailed(Invalid(field, invalidValue))
       }
 
       it("does not validate non existent value") {
@@ -140,7 +141,8 @@ class FormFieldTest extends FunSpec with Matchers {
       }
 
       it("fails to validate invalid value") {
-        field.extract(formWithFieldOf("notValid")) shouldBe ExtractionFailed(Invalid(field))
+        val invalidValue = "notValid"
+        field.extract(formWithFieldOf(invalidValue)) shouldBe ExtractionFailed(Invalid(field, Seq(invalidValue)))
       }
 
       it("does not validate non existent value") {
@@ -197,7 +199,8 @@ class FormFieldTest extends FunSpec with Matchers {
         }
 
         it("fails to validate invalid value") {
-          field.extract(formWithFieldOf("2015-02-04", "notValid")) shouldBe ExtractionFailed(Invalid(field))
+          val invalidValue = Seq("2015-02-04", "notValid")
+          field.extract(formWithFieldOf(invalidValue:_*)) shouldBe ExtractionFailed(Invalid(field, invalidValue))
         }
 
         it("does not validate non existent value") {

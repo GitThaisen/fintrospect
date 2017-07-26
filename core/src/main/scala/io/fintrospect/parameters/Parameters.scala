@@ -22,7 +22,8 @@ trait Parameters[P[_], R[_]] {
     * @tparam T the type of the parameter
     * @return a parameter for retrieving a value of type [T] from the request
     */
-  def apply[T](spec: ParameterSpec[T], name: String, description: String = null): P[T] with R[T]
+  def
+  apply[T](spec: ParameterSpec[T], name: String, description: String = null): P[T] with R[T]
 
   /**
     * Create a LocalDate parameter which is constrained by the format YYYY-MM-DD

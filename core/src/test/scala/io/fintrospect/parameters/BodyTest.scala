@@ -44,7 +44,7 @@ class BodyTest extends FunSpec with Matchers {
       }
 
       it("validation when missing") {
-        body.extract(Request()) shouldBe ExtractionFailed(body.iterator.toSeq.map(p => Invalid(p)))
+        body.extract(Request()) shouldBe ExtractionFailed(body.iterator.toSeq.map(p => Invalid(p, Seq())))
       }
     }
   }
@@ -65,7 +65,7 @@ class BodyTest extends FunSpec with Matchers {
     }
 
     it("defaults to empty is invalid") {
-      body.extract(Request()) shouldBe ExtractionFailed(body.iterator.toSeq.map(p => Invalid(p)))
+      body.extract(Request()) shouldBe ExtractionFailed(body.iterator.toSeq.map(p => Invalid(p, Seq())))
     }
 
     it("can override to empty is valid") {

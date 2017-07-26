@@ -25,7 +25,8 @@ class HeaderTest extends FunSpec with Matchers {
       }
 
       it("fails to retrieve invalid value") {
-        param.extract(messageWithHeaderValueOf(Option("notValid"))) shouldBe ExtractionFailed(Invalid(param))
+        val invalidValue = "notValid"
+        param.extract(messageWithHeaderValueOf(Option(invalidValue))) shouldBe ExtractionFailed(Invalid(param, Seq(invalidValue)))
       }
 
       it("does not retrieve non existent value") {
@@ -51,7 +52,8 @@ class HeaderTest extends FunSpec with Matchers {
 
       it("fails to retrieve invalid value") {
         val param = Header.required.*.long(paramName)
-        param.extract(messageWithValueOf("qwe", "notValid")) shouldBe ExtractionFailed(Invalid(param))
+        val invalidValue = Seq("qwe", "notValid")
+        param.extract(messageWithValueOf(invalidValue:_*)) shouldBe ExtractionFailed(Invalid(param, invalidValue))
       }
 
       it("does not retrieve non existent value") {
@@ -80,7 +82,8 @@ class HeaderTest extends FunSpec with Matchers {
       }
 
       it("fails to retrieve invalid value") {
-        param.extract(messageWithHeaderValueOf(Option("notValid"))) shouldBe ExtractionFailed(Invalid(param))
+        val invalidValue = "notValid"
+        param.extract(messageWithHeaderValueOf(Option(invalidValue))) shouldBe ExtractionFailed(Invalid(param, Seq(invalidValue)))
       }
 
       it("does not retrieve non existent value") {
@@ -113,7 +116,8 @@ class HeaderTest extends FunSpec with Matchers {
       }
 
       it("fails to retrieve invalid value") {
-        param.extract(messageWithValueOf("2015-02-04", "notValid")) shouldBe ExtractionFailed(Invalid(param))
+        val invalidValue = Seq("2015-02-04", "notValid")
+        param.extract(messageWithValueOf(invalidValue:_*)) shouldBe ExtractionFailed(Invalid(param, invalidValue))
       }
 
       it("does not retrieve non existent value") {

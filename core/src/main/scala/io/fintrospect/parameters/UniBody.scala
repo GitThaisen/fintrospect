@@ -46,7 +46,7 @@ case class UniBody[T](inDescription: String, spec: BodySpec[T],
 
   private val fallback: Message => Extraction[T] = message => Try(spec.deserialize(message.content)) match {
     case Success(v) => Extracted(v)
-    case Failure(_) => ExtractionFailed(Invalid(param))
+    case Failure(_) => ExtractionFailed(Invalid(param, Seq()))
   }
 
   override def <--?(message: Message): Extraction[T] = message match {

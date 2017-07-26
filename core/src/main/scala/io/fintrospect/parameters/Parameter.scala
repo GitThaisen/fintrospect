@@ -84,7 +84,7 @@ abstract class ExtractableParameter[Raw, Wrapper, Bndg <: Binding, Bind, Out](sp
   private val fallback: Wrapper => Extraction[Out] = from => eab.valuesFrom(this, from)
     .map(xs => Try(xs.map(spec.deserialize)) match {
       case Success(x) => Extracted(tToOut(x))
-      case Failure(_) => ExtractionFailed(Invalid(this))
+      case Failure(_) => ExtractionFailed(Invalid(this, xs))
     }).getOrElse(onMissing(this))
 
   def <--?(from: Wrapper): Extraction[Out] = from match {

@@ -18,7 +18,7 @@ object ExtractionError {
     val reason = "Missing"
   }
 
-  case class Invalid(param: Parameter) extends ExtractionError {
+  case class Invalid(param: Parameter, values: Seq[String]) extends ExtractionError {
     val reason = "Invalid"
   }
 

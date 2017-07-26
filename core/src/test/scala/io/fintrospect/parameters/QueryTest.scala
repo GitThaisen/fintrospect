@@ -26,7 +26,9 @@ class QueryTest extends FunSpec with Matchers {
       }
 
       it("fails to retrieve invalid value") {
-        param.extract(requestWithValueOf("notValid")) shouldBe ExtractionFailed(Invalid(param))
+        val invalidValue = "notValid"
+        val extract = param.extract(requestWithValueOf(invalidValue))
+        extract shouldBe ExtractionFailed(Invalid(param, Seq(invalidValue)))
       }
 
       it("does not retrieve non existent value") {
@@ -51,7 +53,8 @@ class QueryTest extends FunSpec with Matchers {
 
       it("fails to retrieve invalid value") {
         val param = Query.required.*.long(paramName)
-        param.extract(requestWithValueOf("qwe", "notValid")) shouldBe ExtractionFailed(Invalid(param))
+        val invalidValue = Seq("qwe", "notValid")
+        param.extract(requestWithValueOf(invalidValue:_*)) shouldBe ExtractionFailed(Invalid(param, invalidValue))
       }
 
       it("does not retrieve non existent value") {
@@ -79,7 +82,8 @@ class QueryTest extends FunSpec with Matchers {
 
       it("fails to retrieve invalid value") {
         val param = Query.optional.json(paramName)
-        param.extract(requestWithValueOf("notValid")) shouldBe ExtractionFailed(Invalid(param))
+        val invalidValue = "notValid"
+        param.extract(requestWithValueOf(invalidValue)) shouldBe ExtractionFailed(Invalid(param, Seq(invalidValue)))
       }
 
       it("does not retrieve non existent value") {
@@ -111,7 +115,8 @@ class QueryTest extends FunSpec with Matchers {
       }
 
       it("fails to retrieve invalid value") {
-        param.extract(requestWithValueOf("2015-02-04", "notValid")) shouldBe ExtractionFailed(Invalid(param))
+        val invalidValue = Seq("2015-02-04", "notValid")
+        param.extract(requestWithValueOf(invalidValue:_*)) shouldBe ExtractionFailed(Invalid(param, invalidValue))
       }
 
       it("does not retrieve non existent value") {
