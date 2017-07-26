@@ -1,6 +1,7 @@
 package io.fintrospect.filters
 
 import java.time.{Clock, Duration, ZonedDateTime}
+import java.util.Locale
 import java.util.TimeZone.getTimeZone
 
 import com.twitter.finagle.Filter
@@ -32,7 +33,7 @@ object ResponseFilters {
   }
 
 
-  private val dateFormat = getInstance("EEE, d MMM yyyy HH:mm:ss 'GMT'", getTimeZone("GMT"))
+  private val dateFormat = getInstance("EEE, d MMM yyyy HH:mm:ss 'GMT'", getTimeZone("GMT"), Locale.US)
 
   /**
     * Add Date header to the Response in RFC1123 format.
