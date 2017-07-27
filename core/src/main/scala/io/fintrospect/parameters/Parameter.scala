@@ -15,6 +15,7 @@ trait Parameter extends HasParameters {
   val description: String
   val where: String
   val paramType: ParamType
+  val format: Option[String] = None
 
   override def toString = s"${if (required) "Mandatory" else "Optional"} parameter $name (${paramType.name}) in $where"
 }
