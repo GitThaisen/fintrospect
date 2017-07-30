@@ -7,13 +7,19 @@ import io.fintrospect.util.ExtractionError
 
 object JsonErrorResponseRenderer {
   def badRequest(badParameters: Seq[ExtractionError]): Response = {
-    val messages = badParameters.map(p => obj(
-      "name" -> string(p.param.name),
-      "type" -> string(p.param.where),
-      "datatype" -> string(p.param.paramType.name),
-      "required" -> boolean(p.param.required),
-      "reason" -> string(p.reason)
-    ))
+    val messages = badParameters.map { p =>
+      val requiredFields =
+        Seq(
+          "name" -> string(p.param.name),
+          "type" -> string(p.param.where),
+          "datatype" -> string(p.param.paramType.name),
+          "required" -> boolean(p.param.required),
+          "reason" -> string(p.reason)
+        )
+      val formatField = p.param.format.map("format" -> string(_)).toSeq
+      val fields = requiredFields ++ formatField
+      obj(fields:_*)
+    }
 
     BadRequest(obj("message" -> string("Missing/invalid parameters"), "params" -> array(messages)))
   }

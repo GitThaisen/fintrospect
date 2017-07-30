@@ -82,6 +82,8 @@ abstract class ExtractableParameter[Raw, Wrapper, Bndg <: Binding, Bind, Out](sp
 
   override val paramType: ParamType = spec.paramType
 
+  override val format: Option[String] = spec.format
+
   private val fallback: Wrapper => Extraction[Out] = from => eab.valuesFrom(this, from)
     .map(xs => Try(xs.map(spec.deserialize)) match {
       case Success(x) => Extracted(tToOut(x))

@@ -22,8 +22,7 @@ trait Parameters[P[_], R[_]] {
     * @tparam T the type of the parameter
     * @return a parameter for retrieving a value of type [T] from the request
     */
-  def
-  apply[T](spec: ParameterSpec[T], name: String, description: String = null): P[T] with R[T]
+  def apply[T](spec: ParameterSpec[T], name: String, description: String = null): P[T] with R[T]
 
   /**
     * Create a LocalDate parameter which is constrained by the format YYYY-MM-DD
@@ -32,7 +31,8 @@ trait Parameters[P[_], R[_]] {
     * @param description optional description of the parameter (for use in description endpoints)
     * @return a parameter for retrieving a LocalDate value from the request
     */
-  def localDate(name: String, description: String = null): P[LocalDate] with R[LocalDate] = apply(ParameterSpec.localDate(),name, description)
+  def localDate(name: String, description: String = null): P[LocalDate] with R[LocalDate] =
+    apply(ParameterSpec.localDate(),name, description)
 
   /**
     * Create a ZonedDateTime parameter which is constrained by the format  YYYY-MM-DDTHH:mm:SSZ (See DateTimeFormatter.ISO_OFFSET_DATE_TIME)
@@ -41,7 +41,8 @@ trait Parameters[P[_], R[_]] {
     * @param description optional description of the parameter (for use in description endpoints)
     * @return a parameter for retrieving a ZonedDateTime value from the request
     */
-  def zonedDateTime(name: String, description: String = null): P[ZonedDateTime] with R[ZonedDateTime] = apply(ParameterSpec.zonedDateTime(),name, description)
+  def zonedDateTime(name: String, description: String = null): P[ZonedDateTime] with R[ZonedDateTime] =
+    apply(ParameterSpec.zonedDateTime(),name, description)
 
   /**
     * Create a LocalDateTime parameter which is constrained by the format YYYY-MM-DDTHH:mm:SS
@@ -50,7 +51,8 @@ trait Parameters[P[_], R[_]] {
     * @param description optional description of the parameter (for use in description endpoints)
     * @return a parameter for retrieving a LocalDateTime value from the request
     */
-  def dateTime(name: String, description: String = null): P[LocalDateTime] with R[LocalDateTime] = apply(ParameterSpec.dateTime(),name, description)
+  def dateTime(name: String, description: String = null): P[LocalDateTime] with R[LocalDateTime] =
+    apply(ParameterSpec.dateTime(),name, description)
 
   /**
     * Create a Boolean parameter which is constrained to boolean values
@@ -59,7 +61,8 @@ trait Parameters[P[_], R[_]] {
     * @param description optional description of the parameter (for use in description endpoints)
     * @return a parameter for retrieving a Boolean value from the request
     */
-  def boolean(name: String, description: String = null): P[Boolean] with R[Boolean] = apply(ParameterSpec.boolean(),name, description)
+  def boolean(name: String, description: String = null): P[Boolean] with R[Boolean] =
+    apply(ParameterSpec.boolean(),name, description)
 
   /**
     * Create a String parameter which is not constrained
@@ -69,7 +72,9 @@ trait Parameters[P[_], R[_]] {
     * @param validation  validation mode for String values
     * @return a parameter for retrieving a String value from the request
     */
-  def string(name: String, description: String = null, validation: StringValidations.Rule = StringValidations.EmptyIsInvalid): P[String] with R[String] = apply(ParameterSpec.string(validation), name, description)
+  def string(name: String, description: String = null,
+             validation: StringValidations.Rule = StringValidations.EmptyIsInvalid): P[String] with R[String] =
+    apply(ParameterSpec.string(validation), name, description)
 
   /**
     * Create a UUID parameter
@@ -87,7 +92,8 @@ trait Parameters[P[_], R[_]] {
     * @param description optional description of the parameter (for use in description endpoints)
     * @return a parameter for retrieving a BigDecimal value from the request
     */
-  def bigDecimal(name: String, description: String = null): P[BigDecimal] with R[BigDecimal] = apply(ParameterSpec.bigDecimal(),name, description)
+  def bigDecimal(name: String, description: String = null): P[BigDecimal] with R[BigDecimal] =
+    apply(ParameterSpec.bigDecimal(),name, description)
 
   /**
     * Create a Long parameter which is constrained to numeric Long values
@@ -96,7 +102,8 @@ trait Parameters[P[_], R[_]] {
     * @param description optional description of the parameter (for use in description endpoints)
     * @return a parameter for retrieving a Long value from the request
     */
-  def long(name: String, description: String = null): P[Long] with R[Long] = apply(ParameterSpec.long(),name, description)
+  def long(name: String, description: String = null): P[Long] with R[Long] =
+    apply(ParameterSpec.long(),name, description)
 
   /**
     * Create a Scala Int parameter which is constrained to numeric Int values

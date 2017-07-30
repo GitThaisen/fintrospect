@@ -18,18 +18,26 @@ object Query {
   type QSeq[T] = QueryParameter[Seq[T]]
 
   val required = new Parameters[QueryParameter, Mandatory] with MultiParameters[QSeq, MandatorySeq] {
-    override def apply[T](spec: ParameterSpec[T], name: String, description: String = null) = new SingleMandatoryParameter(name, description, spec, QueryExtractAndRebind) with QueryParameter[T] with Mandatory[T]
+    override def apply[T](spec: ParameterSpec[T], name: String, description: String = null) =
+      new SingleMandatoryParameter(name, description, spec, QueryExtractAndRebind)
+          with QueryParameter[T] with Mandatory[T]
 
     override val multi = new Parameters[QSeq, MandatorySeq] {
-      override def apply[T](spec: ParameterSpec[T], name: String, description: String = null) = new MultiMandatoryParameter(name, description, spec, QueryExtractAndRebind) with QueryParameter[Seq[T]] with MandatorySeq[T]
+      override def apply[T](spec: ParameterSpec[T], name: String, description: String = null) =
+        new MultiMandatoryParameter(name, description, spec, QueryExtractAndRebind)
+            with QueryParameter[Seq[T]] with MandatorySeq[T]
     }
   }
 
   val optional = new Parameters[QueryParameter, Optional] with MultiParameters[QSeq, OptionalSeq] {
-    override def apply[T](spec: ParameterSpec[T], name: String, description: String = null) = new SingleOptionalParameter(name, description, spec, QueryExtractAndRebind) with QueryParameter[T] with Optional[T]
+    override def apply[T](spec: ParameterSpec[T], name: String, description: String = null) =
+      new SingleOptionalParameter(name, description, spec, QueryExtractAndRebind)
+          with QueryParameter[T] with Optional[T]
 
     override val multi = new Parameters[QSeq, OptionalSeq] {
-      override def apply[T](spec: ParameterSpec[T], name: String, description: String = null) = new MultiOptionalParameter(name, description, spec, QueryExtractAndRebind) with QueryParameter[Seq[T]] with OptionalSeq[T]
+      override def apply[T](spec: ParameterSpec[T], name: String, description: String = null) =
+        new MultiOptionalParameter(name, description, spec, QueryExtractAndRebind)
+            with QueryParameter[Seq[T]] with OptionalSeq[T]
     }
   }
 }

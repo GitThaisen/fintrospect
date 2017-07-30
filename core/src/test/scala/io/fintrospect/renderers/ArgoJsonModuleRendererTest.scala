@@ -10,6 +10,7 @@ import io.fintrospect._
 import io.fintrospect.formats.Argo
 import io.fintrospect.formats.Argo.JsonFormat.{number, obj, parse}
 import io.fintrospect.parameters._
+import io.fintrospect.util.ExtractionError.Invalid
 import io.fintrospect.util.HttpRequestResponseUtil.statusAndContentFrom
 import io.fintrospect.util.{Echo, ExtractionError}
 import org.scalatest.{FunSpec, Matchers}
@@ -62,9 +63,23 @@ abstract class ArgoJsonModuleRendererTest() extends FunSpec with Matchers {
     }
 
     it("can build 400") {
-      val response = statusAndContentFrom(renderer.badRequest(Seq(ExtractionError(Query.required.string("bob"), "missing"))))
+      val bob = "bob"
+      val birthdate = "birthdate"
+      val notadate = "notadate"
+      val response = statusAndContentFrom(renderer.badRequest(Seq(
+        ExtractionError(Query.required.string(bob), "missing"),
+        Invalid(Query.required.localDate(birthdate), Seq(notadate))
+      )))
       response._1 shouldBe Status.BadRequest
-      parse(response._2).getStringValue("message") shouldBe "Missing/invalid parameters"
+      val actual = response._2
+      //println(Argo.JsonFormat.pretty(parse(actual)))
+      val actualParsed = parse(actual)
+      actualParsed.getStringValue("message") shouldBe "Missing/invalid parameters"
+      assert(actual.contains(bob))
+      assert(actual.contains(birthdate))
+      assert(actual.contains(notadate))
+      assert(actual.contains("format"))
+      assert(actual.contains("date"))
     }
 
     it("can build 404") {
