@@ -18,7 +18,10 @@ import scala.xml.{Elem, XML}
   * @param serialize   function to take the input type and serialize it to a string to be represented in the request
   * @tparam T the type of the deserialised body
   */
-case class BodySpec[T](contentType: ContentType, paramType: ParamType, deserialize: Buf => T, serialize: T => Buf = (s: T) => Buf.Utf8(s.toString)) {
+case class BodySpec[T](contentType: ContentType,
+                       paramType: ParamType,
+                       deserialize: Buf => T,
+                       serialize: T => Buf = (s: T) => Buf.Utf8(s.toString)) { // todo: be explicit
 
   /**
     * Convenience method to avoid boilerplate using map() with a AnyVal case-classes (which can be tagged with Value[T])
@@ -41,11 +44,15 @@ case class BodySpec[T](contentType: ContentType, paramType: ParamType, deseriali
 }
 
 object BodySpec {
-  def string(contentType: ContentType = TEXT_PLAIN, validation: StringValidations.Rule = StringValidations.EmptyIsInvalid): BodySpec[String] =
+  def string(contentType: ContentType = TEXT_PLAIN,
+             validation: StringValidations.Rule = StringValidations.EmptyIsInvalid): BodySpec[String] =
     BodySpec[String](contentType, StringParamType, b => validation(new String(extract(b))))
 
   def json[T](jsonLib: JsonLibrary[T, _] = Argo): BodySpec[T] =
-    BodySpec[T](APPLICATION_JSON, ObjectParamType, b => jsonLib.JsonFormat.parse(new String(extract(b))), t => Buf.Utf8(jsonLib.JsonFormat.compact(t)))
+    BodySpec[T](APPLICATION_JSON,
+                ObjectParamType,
+                b => jsonLib.JsonFormat.parse(new String(extract(b))), // todo: don't convert to string first, also, charset
+                t => Buf.Utf8(jsonLib.JsonFormat.compact(t))) // todo: write directly to bytes
 
   def xml(): BodySpec[Elem] = string(APPLICATION_XML).map(XML.loadString, _.toString())
 
