@@ -17,8 +17,9 @@ class JsonErrorResponseRendererTest extends FunSpec with Matchers {
   }
 
   it("can build 404") {
-    val response = statusAndContentFrom(notFound())
+    val invalidPath = "no/such/path"
+    val response = statusAndContentFrom(notFound(invalidPath))
     response._1 shouldBe Status.NotFound
-    parse(response._2).getStringValue("message") shouldBe "No route found on this path. Have you used the correct HTTP verb?"
+    parse(response._2).getStringValue("message") shouldBe s"No route found on $invalidPath. Have you used the correct HTTP verb?"
   }
 }

@@ -18,9 +18,10 @@ import scala.util.Try
   */
 case class Swagger2dot0Json(apiInfo: ApiInfo) extends ModuleRenderer {
 
-  override def badRequest(badParameters: Seq[ExtractionError]): Response = JsonErrorResponseRenderer.badRequest(badParameters)
+  override def badRequest(badParameters: Seq[ExtractionError]): Response =
+    JsonErrorResponseRenderer.badRequest(badParameters)
 
-  override def notFound(request: Request): Response = JsonErrorResponseRenderer.notFound()
+  override def notFound(request: Request): Response = JsonErrorResponseRenderer.notFound(request.path)
 
   private val schemaGenerator = new JsonToJsonSchema()
 

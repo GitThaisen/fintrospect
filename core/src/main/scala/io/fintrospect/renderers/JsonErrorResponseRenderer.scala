@@ -24,7 +24,7 @@ object JsonErrorResponseRenderer {
     BadRequest(obj("message" -> string("Missing/invalid parameters"), "params" -> array(messages)))
   }
 
-  def notFound(): Response = {
-    NotFound(obj("message" -> string("No route found on this path. Have you used the correct HTTP verb?")))
+  def notFound(path: String): Response = {
+    NotFound(obj("message" -> string(s"No route found on $path. Have you used the correct HTTP verb?")))
   }
 }

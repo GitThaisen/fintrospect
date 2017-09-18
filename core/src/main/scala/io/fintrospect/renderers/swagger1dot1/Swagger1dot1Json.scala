@@ -53,7 +53,7 @@ class Swagger1dot1Json extends ModuleRenderer {
 
   override def badRequest(badParameters: Seq[ExtractionError]): Response = JsonErrorResponseRenderer.badRequest(badParameters)
 
-  override def notFound(request: Request): Response = JsonErrorResponseRenderer.notFound()
+  override def notFound(request: Request): Response = JsonErrorResponseRenderer.notFound(request.path)
 }
 
 object Swagger1dot1Json {

@@ -15,7 +15,7 @@ import io.fintrospect.{Security, ServerRoute}
 class SimpleJson extends ModuleRenderer {
   override def badRequest(badParameters: Seq[ExtractionError]): Response = JsonErrorResponseRenderer.badRequest(badParameters)
 
-  override def notFound(request: Request): Response = JsonErrorResponseRenderer.notFound()
+  override def notFound(request: Request): Response = JsonErrorResponseRenderer.notFound(request.path)
 
   private def render(basePath: Path, route: ServerRoute[_, _]): Field =
     route.method.toString() + ":" + route.describeFor(basePath) -> Argo.JsonFormat.string(route.routeSpec.summary)
